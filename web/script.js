@@ -18,6 +18,13 @@ async function main(){
         yVelocity =  -50 
     }
 
+    function isColliding(r1,r2) {
+        return !(r2.x > r1.x + r1.width ||
+                 r2.x + r2.width < r1.x ||
+                 r2.y > r1.y + r1.height ||
+                 r2.y + r2.height < r1.y);
+    }
+
     for (let i = 0; i < 100000; i++) {
         yVelocity = yVelocity + a * 0.333333
         y = y + yVelocity * 0.333333
@@ -39,7 +46,18 @@ async function main(){
             if (tower.x + TOWER_WIDTH < 0) {
                 tower.x = 1600
             }
+
+            let playerRect = {x:10, y:y, width:100, height:100}
+            let topTowerRect = {x:tower.x, y:0, width:TOWER_WIDTH, height:tower.height}
+            let bottomTowerRect = {x:tower.x, y:900 - TOWER_HEIGHT, width:TOWER_WIDTH, height:TOWER_HEIGHT} 
+            if (isColliding(playerRect, topTowerRect) || isColliding(playerRect, bottomTowerRect)) {
+                alert("Game Over!")
+                return
+            }
+
+
         }
+
 
         await new Promise(r => setTimeout(r, 0.0333333*1000))
     }
