@@ -14,6 +14,20 @@ class GameObject {
         ctx.fillRect(this.x, this.y, this.width, this.height);
     }
 }
+function createTower(x, canvasHeight, BIRD_HEIGHT, TOWER_WIDTH, verticalgap, color = 'green') {
+    let height = Math.random() * (canvasHeight - verticalgap);
+    return {
+        top: new GameObject(x, 0, TOWER_WIDTH, height, color),
+        bottom: new GameObject(x, height + verticalgap, TOWER_WIDTH, canvasHeight - (height + verticalgap), color),
+        verticalgap: verticalgap,
+        passed: false
+    };
+}
+function writeScore(ctx,score){
+    ctx.fillStyle = 'black';
+    ctx.font = '48px serif';
+    ctx.fillText("Score: " + score, 10, 50);
+}
 
 async function main(){
     let canvas = document.querySelector('#gameCanvas');
@@ -30,26 +44,16 @@ async function main(){
 
     let towers = [];
     for (let i = 0; i < 5; i++) {
-        let verticalgap = BIRD_HEIGHT * 3;
-        let height = Math.random() * (canvas.height - verticalgap);
-        towers.push({
-            top: new GameObject(800 + i * 400, 0, TOWER_WIDTH, height, 'green'),
-            bottom: new GameObject(800 + i * 400, height + verticalgap, TOWER_WIDTH, canvas.height - (height + verticalgap), 'green'),
-            verticalgap: verticalgap,
-            horizontalgap: TOWER_SPACING,
-            passed: false
-        });
+        let tower = createTower(canvas.width + i * (TOWER_WIDTH + TOWER_SPACING), canvas.height, BIRD_HEIGHT, TOWER_WIDTH, BIRD_HEIGHT * 3);
+        towers.push(tower);
+        lastX = tower.top.x + TOWER_WIDTH + TOWER_SPACING;
     }
 
     document.onkeydown = function(){
-        BIRD.yvelocity = -50; 
+        BIRD.yvelocity = -40; 
     }
 
-    function writeScore(score){
-        ctx.fillStyle = 'black';
-        ctx.font = '48px serif';
-        ctx.fillText("Score: " + score, 10, 50);
-    }
+
 
     function isColliding(r1, r2){
         return !(r2.x > r1.x + r1.width ||
@@ -64,7 +68,7 @@ async function main(){
 
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        writeScore(SCORE);
+        writeScore(ctx,SCORE);
 
         BIRD.draw(ctx);
 
@@ -76,13 +80,16 @@ async function main(){
             tower.bottom.x -= 5;
 
             if (tower.top.x + TOWER_WIDTH < 0){
-                let verticalgap = BIRD_HEIGHT * 3;
-                let height = Math.random() * (canvas.height - verticalgap);
-                tower.top = new GameObject(canvas.width, 0, TOWER_WIDTH, height, 'green');
-                tower.bottom = new GameObject(canvas.width, height + verticalgap, TOWER_WIDTH, canvas.height - (height + verticalgap), 'green');
-                tower.verticalgap = verticalgap;
-                tower.horizontalgap = TOWER_SPACING;
-                tower.passed = false;
+
+                let lastX = 0
+                for (let t of towers){
+                    if (t.top.x + TOWER_WIDTH > lastX){
+                        lastX = t.top.x + TOWER_WIDTH;
+                    }
+                }
+                // RESET VAYE PAXI KO COLOR
+                // OBJECT ASSIGN WILL CHANGE THE PROPERTIES OF THE EXISTING OBJECT AND NOT CREATE A NEW OBJECT
+                Object.assign(tower, createTower(lastX + TOWER_WIDTH + TOWER_SPACING, canvas.height, BIRD_HEIGHT, TOWER_WIDTH, BIRD_HEIGHT * 3, 'yellow'));
             }
 
             if (isColliding(BIRD, tower.top) || isColliding(BIRD, tower.bottom) || BIRD.y < 0 || BIRD.y + BIRD_HEIGHT > canvas.height){
