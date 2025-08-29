@@ -23,18 +23,24 @@ function createTower(x, canvasHeight, BIRD_HEIGHT, TOWER_WIDTH, verticalgap, col
         passed: false
     };
 }
-function writeScore(ctx,score){
-    ctx.fillStyle = 'black';
-    ctx.font = '48px serif';
-    ctx.fillText("Score: " + score, 10, 50);
-}
-function credits(ctx){
-    ctx.fillStyle = 'black';
-    ctx.font = '24px serif';
-    ctx.fillText("github.com/samTime101", 10, 100);
-    ctx.fillText("Created on August 29 2025", 10, 130);
-}
+class HUD {
+    constructor(ctx) {
+        this.ctx = ctx;
+    }
 
+    writeScore(score) {
+        this.ctx.fillStyle = 'black';
+        this.ctx.font = '48px serif';
+        this.ctx.fillText("Score: " + score, 10, 50);
+    }
+
+    credits() {
+        this.ctx.fillStyle = 'black';
+        this.ctx.font = '24px serif';
+        this.ctx.fillText("github.com/samTime101", 10, 100);
+        this.ctx.fillText("Created on August 29 2025", 10, 130);
+    }
+}
 async function main(){
     let canvas = document.querySelector('#gameCanvas');
     let ctx = canvas.getContext('2d');
@@ -47,7 +53,7 @@ async function main(){
     let SCORE = 0;
     
     let BIRD = new GameObject(50, 50, BIRD_WIDTH, BIRD_HEIGHT, 'red');
-
+    let hud = new HUD(ctx);
     let towers = [];
     for (let i = 0; i < 5; i++) {
         let tower = createTower(canvas.width + i * (TOWER_WIDTH + TOWER_SPACING), canvas.height, BIRD_HEIGHT, TOWER_WIDTH, BIRD_HEIGHT * 3);
@@ -73,9 +79,9 @@ async function main(){
         BIRD.y = BIRD.y + BIRD.yvelocity * 0.333333;
 
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        credits(ctx);
-        writeScore(ctx,SCORE);
 
+        hud.writeScore(SCORE);
+        hud.credits();
         BIRD.draw(ctx);
 
         for (let tower of towers){
