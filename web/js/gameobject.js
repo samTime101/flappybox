@@ -1,5 +1,5 @@
 class GameObject {
-    constructor(x, y, width, height , color) {
+    constructor(x, y, width, height , color=null , imgsrc=null) {
         this.x = x;
         this.y = y;
         this.width = width;
@@ -7,14 +7,23 @@ class GameObject {
         this.color = color;
         this.xvelocity = 0;
         this.yvelocity = 0;
+        if (imgsrc) {
+            this.image = new Image();
+            this.image.src = imgsrc;
     }
-
+    else{
+        this.image = null;
+    }}
     draw(ctx) {
-        ctx.fillStyle = this.color;
-        ctx.fillRect(this.x, this.y, this.width, this.height);
+        if (this.image) {
+            ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
+        } else {
+            ctx.fillStyle = this.color;
+            ctx.fillRect(this.x, this.y, this.width, this.height);
+        }
     }
 }
-function createTower(x, canvasHeight, BIRD_HEIGHT, TOWER_WIDTH, verticalgap, color = 'green') {
+function createTower(x, canvasHeight, BIRD_HEIGHT, TOWER_WIDTH, verticalgap, color = 'blue') {
     let height = Math.random() * (canvasHeight - verticalgap);
     return {
         top: new GameObject(x, 0, TOWER_WIDTH, height, color),

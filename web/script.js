@@ -4,14 +4,18 @@ import { showPlayAgain } from './js/showplayagain.js';
 import { GameObject, createTower } from './js/gameobject.js';
 import { isColliding } from './js/iscolliding.js';
 import { GRAVITY, BIRD_WIDTH, BIRD_HEIGHT, TOWER_WIDTH, TOWER_SPACING } from './js/constants.js';
+import { colorpicker } from './js/colorpicker.js';
+
 initMenu(main);
+
+
 
 async function main(){
     let canvas = document.querySelector('#gameCanvas');
     let ctx = canvas.getContext('2d');
     let SCORE = 0;
     
-    let BIRD = new GameObject(50, 50, BIRD_WIDTH, BIRD_HEIGHT, 'red');
+    let BIRD = new GameObject(50, 50, BIRD_WIDTH, BIRD_HEIGHT,null, '../image.png');
     let hud = new HUD(ctx);
 
     let towers = [];
@@ -51,7 +55,7 @@ async function main(){
                 }
                 // RESET VAYE PAXI KO COLOR
                 // OBJECT ASSIGN WILL CHANGE THE PROPERTIES OF THE EXISTING OBJECT AND NOT CREATE A NEW OBJECT
-                Object.assign(tower, createTower(lastX + TOWER_WIDTH + TOWER_SPACING, canvas.height, BIRD_HEIGHT, TOWER_WIDTH, BIRD_HEIGHT * 3, 'yellow'));
+                Object.assign(tower, createTower(lastX + TOWER_WIDTH + TOWER_SPACING, canvas.height, BIRD_HEIGHT, TOWER_WIDTH, BIRD_HEIGHT * 3, colorpicker()));
             }
 
             if (isColliding(BIRD, tower.top) || isColliding(BIRD, tower.bottom) || BIRD.y < 0 || BIRD.y + BIRD_HEIGHT > canvas.height){
