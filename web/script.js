@@ -5,8 +5,14 @@ async function main(){
     let yVelocity = 0
     let a = 9.8
 
-    let towersX = 800
+    const TOWER_WIDTH = 50
     const TOWER_HEIGHT = 200
+    const TOWER_SPACING = 400  
+
+    let towers = []
+    for (let i = 0; i < 5; i++) {
+        towers.push({x:800 +i * TOWER_SPACING})
+    }
 
     document.onkeydown = function() {
         yVelocity =  -50 
@@ -20,15 +26,20 @@ async function main(){
         ctx.rect(10, y, 100, 100)
         ctx.fill()
 
-        ctx.beginPath()
-        ctx.rect(towersX, 0, 50, TOWER_HEIGHT)
-        ctx.fill()
+        for (let tower of towers) {
+           ctx.beginPath()
+            ctx.rect(tower.x, 0, TOWER_WIDTH, TOWER_HEIGHT)
+            ctx.fill()
 
-        ctx.beginPath()
-        ctx.rect(towersX, 900-TOWER_HEIGHT, 50, TOWER_HEIGHT)
-        ctx.fill()
+            ctx.beginPath()
+            ctx.rect(tower.x, 900 - TOWER_HEIGHT, TOWER_WIDTH, TOWER_HEIGHT)
+            ctx.fill()
 
-        towersX = towersX - 10
+            tower.x -= 5
+            if (tower.x + TOWER_WIDTH < 0) {
+                tower.x = 1600
+            }
+        }
 
         await new Promise(r => setTimeout(r, 0.0333333*1000))
     }
