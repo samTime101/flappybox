@@ -119,7 +119,7 @@ async function main(){
 
             if (isColliding(BIRD, tower.top) || isColliding(BIRD, tower.bottom) || BIRD.y < 0 || BIRD.y + BIRD_HEIGHT > canvas.height){
                 // alert('GAME OVER ' + SCORE);
-                showPlayAgain(canvas,SCORE);
+                showPlayAgain(canvas,SCORE, main);
                 return;
             }
             if (!tower.passed && tower.top.x + TOWER_WIDTH < BIRD.x){

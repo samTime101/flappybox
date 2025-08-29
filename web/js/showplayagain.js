@@ -1,4 +1,4 @@
-function showPlayAgain(canvas,SCORE) {
+function showPlayAgain(canvas,SCORE , main) {
     canvas.style.display = "none";
     const playAgainBtn = document.createElement("button");
     const scoreText = document.createElement("h2");
