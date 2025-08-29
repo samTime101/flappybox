@@ -1,9 +1,9 @@
-const playBtn = document.getElementById("playBtn");
-const creditsBtn = document.getElementById("creditsBtn");
-const backBtn = document.getElementById("backBtn");
-const menu = document.getElementById("menu");
-const canvas = document.getElementById("gameCanvas");
-const creditsDiv = document.getElementById("credits");
+const playBtn = document.querySelector("#playBtn");
+const creditsBtn = document.querySelector("#creditsBtn");
+const backBtn = document.querySelector("#backBtn");
+const menu = document.querySelector("#menu");
+const canvas = document.querySelector("#gameCanvas");
+const creditsDiv = document.querySelector("#credits");
 
 playBtn.onclick = () => {
     menu.style.display = "none";
@@ -24,14 +24,19 @@ backBtn.onclick = () => {
     menu.style.display = "block";
 }
 
-function showPlayAgain() {
+function showPlayAgain(SCORE) {
     canvas.style.display = "none";
     const playAgainBtn = document.createElement("button");
+    const scoreText = document.createElement("h2");
+    scoreText.textContent = "GAME OVER! YOUR SCORE: " + SCORE;
+    document.body.appendChild(scoreText);
     playAgainBtn.textContent = "PLAY AGAIN";
     playAgainBtn.className = "menu-btn";
     document.body.appendChild(playAgainBtn);
+
     playAgainBtn.onclick = () => {
         playAgainBtn.remove();
+        scoreText.remove();
         canvas.style.display = "block";
         main(); 
     }
@@ -145,7 +150,7 @@ async function main(){
 
             if (isColliding(BIRD, tower.top) || isColliding(BIRD, tower.bottom) || BIRD.y < 0 || BIRD.y + BIRD_HEIGHT > canvas.height){
                 // alert('GAME OVER ' + SCORE);
-                showPlayAgain();
+                showPlayAgain(SCORE);
                 return;
             }
             if (!tower.passed && tower.top.x + TOWER_WIDTH < BIRD.x){

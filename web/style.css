@@ -1,3 +1,37 @@
-body { font-family: Arial, sans-serif; text-align: center; }
-#gameCanvas { border: 1px solid black; display: none; margin: 20px auto; }
-.menu-btn { padding: 10px 20px; margin: 10px; font-size: 18px; cursor: pointer; }
+body { 
+    font-family: Arial, sans-serif;
+    text-align: center;
+}
+
+#gameCanvas {
+    border: 1px solid black;
+    display: none;
+    margin: 20px auto;
+}
+
+#menu {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 80vh;
+}
+
+.menu-btn {
+    padding: 20px 40px;
+    margin: 20px 0;
+    font-size: 48px; 
+    cursor: pointer;
+    background-color: aqua;
+    border: none;
+    border-radius: 10px;
+}
+
+
+#credits {
+    background-color: lightgray;
+    font-size: 50px;
+    padding: 20px;
+    border-radius: 20px;
+    max-width: fit-content;
+}
