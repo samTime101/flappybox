@@ -1,58 +1,10 @@
+import { initMenu } from './js/menu.js';
 import { HUD } from './js/hud.js';
 import { showPlayAgain } from './js/showplayagain.js';
+import { GameObject, createTower } from './js/gameobject.js';
+import { isColliding } from './js/iscolliding.js';
 
-const playBtn = document.querySelector("#playBtn");
-const creditsBtn = document.querySelector("#creditsBtn");
-const backBtn = document.querySelector("#backBtn");
-const menu = document.querySelector("#menu");
-const canvas = document.querySelector("#gameCanvas");
-const creditsDiv = document.querySelector("#credits");
-
-playBtn.onclick = () => {
-    menu.style.display = "none";
-    creditsDiv.style.display = "none";
-    canvas.style.display = "block";
-    main();
-}
-
-creditsBtn.onclick = () => {
-    menu.style.display = "none";
-    canvas.style.display = "none";
-    creditsDiv.style.display = "block";
-}
-
-backBtn.onclick = () => {
-    creditsDiv.style.display = "none";
-    canvas.style.display = "none";
-    menu.style.display = "flex";
-}
-
-
-class GameObject {
-    constructor(x, y, width, height , color) {
-        this.x = x;
-        this.y = y;
-        this.width = width;
-        this.height = height;
-        this.color = color;
-        this.xvelocity = 0;
-        this.yvelocity = 0;
-    }
-
-    draw(ctx) {
-        ctx.fillStyle = this.color;
-        ctx.fillRect(this.x, this.y, this.width, this.height);
-    }
-}
-function createTower(x, canvasHeight, BIRD_HEIGHT, TOWER_WIDTH, verticalgap, color = 'green') {
-    let height = Math.random() * (canvasHeight - verticalgap);
-    return {
-        top: new GameObject(x, 0, TOWER_WIDTH, height, color),
-        bottom: new GameObject(x, height + verticalgap, TOWER_WIDTH, canvasHeight - (height + verticalgap), color),
-        verticalgap: verticalgap,
-        passed: false
-    };
-}
+initMenu(main);
 
 async function main(){
     let canvas = document.querySelector('#gameCanvas');
@@ -71,21 +23,12 @@ async function main(){
     for (let i = 0; i < 5; i++) {
         let tower = createTower(canvas.width + i * (TOWER_WIDTH + TOWER_SPACING), canvas.height, BIRD_HEIGHT, TOWER_WIDTH, BIRD_HEIGHT * 3);
         towers.push(tower);
-        let lastX = tower.top.x + TOWER_WIDTH + TOWER_SPACING;
     }
-
     document.onkeydown = function(){
         BIRD.yvelocity = -40; 
     }
 
 
-
-    function isColliding(r1, r2){
-        return !(r2.x > r1.x + r1.width ||
-                 r2.x + r2.width < r1.x ||
-                 r2.y > r1.y + r1.height ||
-                 r2.y + r2.height < r1.y);
-    }
 
     for (let i = 0; i < 100000; i++){
         BIRD.yvelocity = BIRD.yvelocity + GRAVITY * 0.333333;
