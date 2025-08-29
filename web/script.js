@@ -11,7 +11,7 @@ async function main(){
 
     let towers = []
     for (let i = 0; i < 5; i++) {
-        towers.push({x:800 +i * TOWER_SPACING})
+        towers.push({x:800 +i * TOWER_SPACING,height: Math.random() * (900 - 2 * TOWER_HEIGHT)})
     }
 
     document.onkeydown = function() {
@@ -28,11 +28,11 @@ async function main(){
 
         for (let tower of towers) {
            ctx.beginPath()
-            ctx.rect(tower.x, 0, TOWER_WIDTH, TOWER_HEIGHT)
+            ctx.rect(tower.x, 0, TOWER_WIDTH, tower.height)
             ctx.fill()
 
             ctx.beginPath()
-            ctx.rect(tower.x, 900 - TOWER_HEIGHT, TOWER_WIDTH, TOWER_HEIGHT)
+            ctx.rect(tower.x, 900 - TOWER_HEIGHT, TOWER_WIDTH, tower.height)
             ctx.fill()
 
             tower.x -= 5
