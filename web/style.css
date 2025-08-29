@@ -1,0 +1,3 @@
+body { font-family: Arial, sans-serif; text-align: center; }
+#gameCanvas { border: 1px solid black; display: none; margin: 20px auto; }
+.menu-btn { padding: 10px 20px; margin: 10px; font-size: 18px; cursor: pointer; }

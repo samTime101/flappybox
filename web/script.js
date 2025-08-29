@@ -1,3 +1,42 @@
+const playBtn = document.getElementById("playBtn");
+const creditsBtn = document.getElementById("creditsBtn");
+const backBtn = document.getElementById("backBtn");
+const menu = document.getElementById("menu");
+const canvas = document.getElementById("gameCanvas");
+const creditsDiv = document.getElementById("credits");
+
+playBtn.onclick = () => {
+    menu.style.display = "none";
+    creditsDiv.style.display = "none";
+    canvas.style.display = "block";
+    main();
+}
+
+creditsBtn.onclick = () => {
+    menu.style.display = "none";
+    canvas.style.display = "none";
+    creditsDiv.style.display = "block";
+}
+
+backBtn.onclick = () => {
+    creditsDiv.style.display = "none";
+    canvas.style.display = "none";
+    menu.style.display = "block";
+}
+
+function showPlayAgain() {
+    canvas.style.display = "none";
+    const playAgainBtn = document.createElement("button");
+    playAgainBtn.textContent = "PLAY AGAIN";
+    playAgainBtn.className = "menu-btn";
+    document.body.appendChild(playAgainBtn);
+    playAgainBtn.onclick = () => {
+        playAgainBtn.remove();
+        canvas.style.display = "block";
+        main(); 
+    }
+}
+
 class GameObject {
     constructor(x, y, width, height , color) {
         this.x = x;
@@ -105,7 +144,8 @@ async function main(){
             }
 
             if (isColliding(BIRD, tower.top) || isColliding(BIRD, tower.bottom) || BIRD.y < 0 || BIRD.y + BIRD_HEIGHT > canvas.height){
-                alert('GAME OVER ' + SCORE);
+                // alert('GAME OVER ' + SCORE);
+                showPlayAgain();
                 return;
             }
             if (!tower.passed && tower.top.x + TOWER_WIDTH < BIRD.x){
@@ -118,4 +158,4 @@ async function main(){
     }
 }
 
-main();
+// main();
