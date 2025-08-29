@@ -21,7 +21,7 @@ creditsBtn.onclick = () => {
 backBtn.onclick = () => {
     creditsDiv.style.display = "none";
     canvas.style.display = "none";
-    menu.style.display = "block";
+    menu.style.display = "flex";
 }
 
 function showPlayAgain(SCORE) {
