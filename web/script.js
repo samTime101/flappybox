@@ -1,3 +1,6 @@
+import { HUD } from './js/hud.js';
+import { showPlayAgain } from './js/showplayagain.js';
+
 const playBtn = document.querySelector("#playBtn");
 const creditsBtn = document.querySelector("#creditsBtn");
 const backBtn = document.querySelector("#backBtn");
@@ -24,23 +27,6 @@ backBtn.onclick = () => {
     menu.style.display = "flex";
 }
 
-function showPlayAgain(SCORE) {
-    canvas.style.display = "none";
-    const playAgainBtn = document.createElement("button");
-    const scoreText = document.createElement("h2");
-    scoreText.textContent = "GAME OVER! YOUR SCORE: " + SCORE;
-    document.body.appendChild(scoreText);
-    playAgainBtn.textContent = "PLAY AGAIN";
-    playAgainBtn.className = "menu-btn";
-    document.body.appendChild(playAgainBtn);
-
-    playAgainBtn.onclick = () => {
-        playAgainBtn.remove();
-        scoreText.remove();
-        canvas.style.display = "block";
-        main(); 
-    }
-}
 
 class GameObject {
     constructor(x, y, width, height , color) {
@@ -67,24 +53,7 @@ function createTower(x, canvasHeight, BIRD_HEIGHT, TOWER_WIDTH, verticalgap, col
         passed: false
     };
 }
-class HUD {
-    constructor(ctx) {
-        this.ctx = ctx;
-    }
 
-    writeScore(score) {
-        this.ctx.fillStyle = 'black';
-        this.ctx.font = '48px serif';
-        this.ctx.fillText("Score: " + score, 10, 50);
-    }
-
-    credits() {
-        this.ctx.fillStyle = 'black';
-        this.ctx.font = '24px serif';
-        this.ctx.fillText("github.com/samTime101", 10, 100);
-        this.ctx.fillText("Created on August 29 2025", 10, 130);
-    }
-}
 async function main(){
     let canvas = document.querySelector('#gameCanvas');
     let ctx = canvas.getContext('2d');
@@ -102,7 +71,7 @@ async function main(){
     for (let i = 0; i < 5; i++) {
         let tower = createTower(canvas.width + i * (TOWER_WIDTH + TOWER_SPACING), canvas.height, BIRD_HEIGHT, TOWER_WIDTH, BIRD_HEIGHT * 3);
         towers.push(tower);
-        lastX = tower.top.x + TOWER_WIDTH + TOWER_SPACING;
+        let lastX = tower.top.x + TOWER_WIDTH + TOWER_SPACING;
     }
 
     document.onkeydown = function(){
@@ -150,7 +119,7 @@ async function main(){
 
             if (isColliding(BIRD, tower.top) || isColliding(BIRD, tower.bottom) || BIRD.y < 0 || BIRD.y + BIRD_HEIGHT > canvas.height){
                 // alert('GAME OVER ' + SCORE);
-                showPlayAgain(SCORE);
+                showPlayAgain(canvas,SCORE);
                 return;
             }
             if (!tower.passed && tower.top.x + TOWER_WIDTH < BIRD.x){
