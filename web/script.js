@@ -28,6 +28,12 @@ function writeScore(ctx,score){
     ctx.font = '48px serif';
     ctx.fillText("Score: " + score, 10, 50);
 }
+function credits(ctx){
+    ctx.fillStyle = 'black';
+    ctx.font = '24px serif';
+    ctx.fillText("github.com/samTime101", 10, 100);
+    ctx.fillText("Created on August 29 2025", 10, 130);
+}
 
 async function main(){
     let canvas = document.querySelector('#gameCanvas');
@@ -67,7 +73,7 @@ async function main(){
         BIRD.y = BIRD.y + BIRD.yvelocity * 0.333333;
 
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-
+        credits(ctx);
         writeScore(ctx,SCORE);
 
         BIRD.draw(ctx);
