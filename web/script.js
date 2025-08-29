@@ -3,32 +3,26 @@ import { HUD } from './js/hud.js';
 import { showPlayAgain } from './js/showplayagain.js';
 import { GameObject, createTower } from './js/gameobject.js';
 import { isColliding } from './js/iscolliding.js';
-
+import { GRAVITY, BIRD_WIDTH, BIRD_HEIGHT, TOWER_WIDTH, TOWER_SPACING } from './js/constants.js';
 initMenu(main);
 
 async function main(){
     let canvas = document.querySelector('#gameCanvas');
     let ctx = canvas.getContext('2d');
-
-    const GRAVITY = 9.8;
-    const BIRD_WIDTH = 100;
-    const BIRD_HEIGHT = 100;
-    const TOWER_WIDTH = 100;
-    const TOWER_SPACING = 300;
     let SCORE = 0;
     
     let BIRD = new GameObject(50, 50, BIRD_WIDTH, BIRD_HEIGHT, 'red');
     let hud = new HUD(ctx);
+
     let towers = [];
     for (let i = 0; i < 5; i++) {
         let tower = createTower(canvas.width + i * (TOWER_WIDTH + TOWER_SPACING), canvas.height, BIRD_HEIGHT, TOWER_WIDTH, BIRD_HEIGHT * 3);
         towers.push(tower);
     }
+    
     document.onkeydown = function(){
         BIRD.yvelocity = -40; 
     }
-
-
 
     for (let i = 0; i < 100000; i++){
         BIRD.yvelocity = BIRD.yvelocity + GRAVITY * 0.333333;
