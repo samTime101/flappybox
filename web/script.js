@@ -14,8 +14,19 @@ async function main(){
     let canvas = document.querySelector('#gameCanvas');
     let ctx = canvas.getContext('2d');
     let SCORE = 0;
+    let gameover = false;
+
+    // BACKGROUND MUSIC
+    const BGMUSIC = new Audio('./audio/bgm.mp3');
+    BGMUSIC.loop = true;
+    BGMUSIC.volume = 0.2;
+    BGMUSIC.play();
     
-    let BIRD = new GameObject(50, 50, BIRD_WIDTH, BIRD_HEIGHT,null, '../image.png');
+    // JUMP MUSIC
+    const JUMPMUSIC = new Audio('./audio/bounce.mp3');
+    JUMPMUSIC.volume = 0.2;
+
+    let BIRD = new GameObject(50, 50, BIRD_WIDTH, BIRD_HEIGHT,null, './image/bird.png');
     let hud = new HUD(ctx);
 
     let towers = [];
@@ -25,6 +36,9 @@ async function main(){
     }
     
     document.onkeydown = function(){
+        if (gameover) return;
+        JUMPMUSIC.currentTime = 0;
+        JUMPMUSIC.play();
         BIRD.yvelocity = -40; 
     }
 
@@ -60,6 +74,9 @@ async function main(){
 
             if (isColliding(BIRD, tower.top) || isColliding(BIRD, tower.bottom) || BIRD.y < 0 || BIRD.y + BIRD_HEIGHT > canvas.height){
                 // alert('GAME OVER ' + SCORE);
+                gameover = true;
+                BGMUSIC.pause();
+                JUMPMUSIC.pause();
                 showPlayAgain(canvas,SCORE, main);
                 return;
             }
