@@ -26,6 +26,10 @@ async function main(){
     const JUMPMUSIC = new Audio('./audio/bounce.mp3');
     JUMPMUSIC.volume = 0.2;
 
+    // GAMEOVER MUSIC
+    const GAMEOVERMUSIC = new Audio('./audio/gameOver.mp3');
+    GAMEOVERMUSIC.volume = 0.2;
+
     let BIRD = new GameObject(50, 50, BIRD_WIDTH, BIRD_HEIGHT,null, './image/bird.png');
     let hud = new HUD(ctx);
 
@@ -77,6 +81,8 @@ async function main(){
                 gameover = true;
                 BGMUSIC.pause();
                 JUMPMUSIC.pause();
+                GAMEOVERMUSIC.play();
+
                 showPlayAgain(canvas,SCORE, main);
                 return;
             }
