@@ -15,9 +15,9 @@ const (
 
 func main(){
 	canvas := NewCanvas(canvasWidth, canvasHeight)
-	pipe := NewUpperPipe(pipeWidth, pipeHeight, nil,nil, canvas)
+	upperpipe := NewUpperPipe(pipeWidth, pipeHeight, nil,nil, canvas)
 	cc := canvas.Coordinates()
-	pc := pipe.Coordinates()
+	pc := upperpipe.Coordinates()
 	fmt.Println("Canvas Width:", canvas.Width)
 	fmt.Println("Canvas Height:", canvas.Height)
 	fmt.Println("Canvas Coordinates:", cc)
