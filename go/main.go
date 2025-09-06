@@ -11,21 +11,24 @@ import (
 	"log"
 )
 
-var (
-	canvas    = NewCanvas(CANVASWIDTH, CANVASHEIGHT)
-	upperpipe = NewUpperPipe(PIPEWIDTH, PIPEHEIGHT, nil, nil, canvas)
-	lowerpipe = NewLowerPipe(PIPEWIDTH, PIPEHEIGHT, nil, nil, canvas)
-)
-
 const (
 	CANVASWIDTH  = 800
 	CANVASHEIGHT = 600
 	PIPESPEED    = 5
 	PIPEWIDTH    = 50
 	PIPEHEIGHT   = 200
+	PIPEGAP  = 100
+)
+
+var (
+	canvas    = NewCanvas(CANVASWIDTH, CANVASHEIGHT)
+	upperpipe = NewUpperPipe(PIPEWIDTH, PIPEHEIGHT, nil, nil, canvas)
+	y = CANVASHEIGHT - PIPEGAP
+	lowerpipe = NewLowerPipe(PIPEWIDTH, PIPEHEIGHT, nil, &y, canvas)
 )
 
 type Game struct{} 
+
 func (g *Game) Update() error {
 	upperpipe.MoveLeft(PIPESPEED)
 	lowerpipe.MoveLeft(PIPESPEED)
