@@ -6,20 +6,23 @@ package main
 import "fmt"
 
 const (
-	canvasWidth  = 800
-	canvasHeight = 600
-	pipeSpeed = 5
-	pipeWidth = 50
-	pipeHeight = 200
+	CANVASWIDTH  = 800
+	CANVASHEIGHT = 600
+	PIPESPEED = 5
+	PIPEWIDTH = 50
+	PIPEHEIGHT = 200
+	FRAME  = 10
 )
 
 func main(){
-	canvas := NewCanvas(canvasWidth, canvasHeight)
-	upperpipe := NewUpperPipe(pipeWidth, pipeHeight, nil,nil, canvas)
-	cc := canvas.Coordinates()
-	pc := upperpipe.Coordinates()
-	fmt.Println("Canvas Width:", canvas.Width)
-	fmt.Println("Canvas Height:", canvas.Height)
-	fmt.Println("Canvas Coordinates:", cc)
-	fmt.Println("Upper Pipe Coordinates:", pc)
+	// INSTANCES
+	canvas := NewCanvas(CANVASWIDTH, CANVASHEIGHT)
+	upperpipe := NewUpperPipe(PIPEWIDTH, PIPEHEIGHT, nil,nil, canvas)
+	lowerpipe := NewLowerPipe(PIPEWIDTH, PIPEHEIGHT, nil,nil, canvas)
+	
+	for i:=0; i < FRAME; i++ {
+		upperpipe.MoveLeft(PIPESPEED)
+		lowerpipe.MoveLeft(PIPESPEED)
+		fmt.Println("UPPER PIPE X0 AND X1:",upperpipe.Coordinates()["x0"], upperpipe.Coordinates()["x1"])
+	}
 }
