@@ -5,6 +5,7 @@
 package main
 
 import (
+	"fmt"
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/ebitenutil"
 	"image/color"
@@ -30,7 +31,14 @@ var (
 
 type Game struct{} 
 
+
 func (g *Game) Update() error {
+	bird.ApplyGravity()
+	if ebiten.IsKeyPressed(ebiten.KeySpace) {
+		fmt.Println("Space key pressed")
+		bird.Flap()
+	}
+	
 	upperpipe.MoveLeft(PIPESPEED)
 	lowerpipe.MoveLeft(PIPESPEED)
 
