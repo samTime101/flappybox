@@ -25,6 +25,7 @@ var (
 	upperpipe = NewUpperPipe(PIPEWIDTH, PIPEHEIGHT, nil, nil, canvas)
 	y = CANVASHEIGHT - PIPEGAP
 	lowerpipe = NewLowerPipe(PIPEWIDTH, PIPEHEIGHT, nil, &y, canvas)
+	bird = NewBird(30,30)
 )
 
 type Game struct{} 
@@ -48,6 +49,8 @@ func (g *Game) Draw(screen *ebiten.Image) {
 		float64(upperpipe.Width), float64(upperpipe.Height), color.RGBA{255, 0, 0, 255})
 	ebitenutil.DrawRect(screen, float64(lowerpipe.X), float64(lowerpipe.Y),
 		float64(lowerpipe.Width), float64(lowerpipe.Height), color.RGBA{0, 255, 0, 255})
+	ebitenutil.DrawRect(screen, float64(bird.X), float64(bird.Y),
+		float64(bird.Width), float64(bird.Height), color.RGBA{0, 0, 255, 255})
 }
 
 func (g *Game) Layout(outsideWidth, outsideHeight int) (int, int) {
