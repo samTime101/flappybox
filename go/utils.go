@@ -1,6 +1,6 @@
 // SEPTEMBER 6 2025
 // SAMIP REGMI
-// UTILS.GO
+// UTILS.PY
 
 package main
 
@@ -70,6 +70,53 @@ func NewUpperPipe(width int, height int, x *int, y *int , canvas *Canvas) *Upper
 	}
 
 	return &UpperPipe{
+		Width: width,
+		Height: height,
+		X: pipeX,
+		Y: pipeY,
+	}
+}
+
+
+// LOWER PIPE DEFINITION
+type LowerPipe struct {
+	Width 	int
+	Height 	int
+	X 			int 
+	Y 			int
+}
+
+// LOWER PIPE COORDINATES FUNCTION
+
+func (lowerpipe *LowerPipe) Coordinates() map[string]int {
+	return map[string]int{
+		"x0" : lowerpipe.X,
+		"y0" : lowerpipe.Y,
+		"x1" : lowerpipe.X +	lowerpipe.Width,
+		"y1" : lowerpipe.Y +	lowerpipe.Height,
+	
+	}
+}
+
+// MOVE LEFT FUNCTION FOR UPPER PIPE
+func (lowerpipe *LowerPipe) MoveLeft(speed int) {
+	lowerpipe.X -= speed
+}
+
+// LOWER PIPE INITIALIZATION FUNCTION
+
+func NewLowerPipe(width int, height int, x *int, y *int , canvas *Canvas) *LowerPipe {
+	// THE DEFAULT X POSITION OF THE UPPER PIPE IS THE WIDTH OF THE CANVAS
+	pipeX := canvas.Width
+	if x !=  nil {
+		pipeX = *x
+	}
+	pipeY := 0
+	if y != nil {
+		pipeY = *y
+	}
+
+	return &LowerPipe{
 		Width: width,
 		Height: height,
 		X: pipeX,
