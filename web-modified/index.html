@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <canvas id="gameCanvas" style="border: 1px solid black;"></canvas>
+    <script src="utils.js"></script>
+    <script src="bbox.js"></script>
+    <script src="collisions.js"></script>
+    <script src="constants.js"></script>
+</body>
+<script>
+    let canvas = document.getElementById('gameCanvas');
+    let ctx = canvas.getContext('2d');
+
+    
+    let c = new NewCanvas(CANVASWIDTH,CANVASHEIGHT);
+
+    canvas.width = c.width;
+    canvas.height = c.height;
+
+    var bird = new Bird(30,30);
+    var upperpipe = new UpperPipe(50,200);
+    var lowerpipe = new LowerPipe(50,200,undefined,CANVASHEIGHT - PIPEGAP);
+
+    document.onkeydown = function(e) {
+        if(e.key == " "){
+            bird.flap();
+        }
+    }
+
+    function draw(){
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.fillRect(bird.x, bird.y, bird.width, bird.height);
+        ctx.fillRect(upperpipe.x, upperpipe.y, PIPEWIDTH, PIPEHEIGHT);
+        ctx.fillRect(lowerpipe.x, lowerpipe.y, PIPEWIDTH, PIPEHEIGHT);
+    }
+    function update(){
+        let [cx1,cy1,cx2,cy2] = get_bbox(c.coordinates());
+        let [upx1,upy1,upx2,upy2] = get_bbox(upperpipe.coordinates());
+        let [lpx1,lpy1,lpx2,lpy2] = get_bbox(lowerpipe.coordinates());  
+        bird.apply_gravity();
+        upperpipe.move_left();
+        lowerpipe.move_left();
+        if(upx2 < cx1){
+            upperpipe.x = canvas.width;
+            lowerpipe.x = canvas.width;
+        }
+        if(canvas_bird_collision(c, bird) || bird_upperpipe_collision(bird, upperpipe) || bird_lowerpipe_collision(bird, lowerpipe)){
+            alert("Game Over");
+            document.location.reload();
+        }
+        draw();
+        requestAnimationFrame(update);
+    }
+    update();
+</script>
+</html>
