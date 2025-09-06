@@ -5,10 +5,21 @@ package main
 
 import "fmt"
 
+const (
+	canvasWidth  = 800
+	canvasHeight = 600
+	pipeSpeed = 5
+	pipeWidth = 50
+	pipeHeight = 200
+)
+
 func main(){
-	canvas := NewCanvas(800, 600)
-	coords := canvas.Coordinates()
+	canvas := NewCanvas(canvasWidth, canvasHeight)
+	pipe := NewUpperPipe(pipeWidth, pipeHeight, nil,nil, canvas)
+	cc := canvas.Coordinates()
+	pc := pipe.Coordinates()
 	fmt.Println("Canvas Width:", canvas.Width)
 	fmt.Println("Canvas Height:", canvas.Height)
-	fmt.Println("Canvas Coordinates:", coords)
+	fmt.Println("Canvas Coordinates:", cc)
+	fmt.Println("Upper Pipe Coordinates:", pc)
 }
