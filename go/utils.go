@@ -123,3 +123,44 @@ func NewLowerPipe(width int, height int, x *int, y *int , canvas *Canvas) *Lower
 		Y: pipeY,
 	}
 }
+
+// BIRD DEFINITION
+type Bird struct {
+	Width int
+	Height int
+	X int
+	Y int
+	Y_VELOCITY int
+}
+
+func (bird *Bird) Coordinates() map[string]int {
+	return map[string]int{
+		"x0" : bird.X,
+		"y0" : bird.Y,
+		"x1" : bird.X + bird.Width,
+		"y1" : bird.Y + bird.Height,
+	}
+}
+
+// FLAP FUNCTION FOR BIRD
+func (bird *Bird) Flap() {
+	bird.Y_VELOCITY = -10
+}
+
+// APPLY GRAVITY FUNCTION FOR BIRD
+func (bird *Bird) ApplyGravity() {
+	bird.Y_VELOCITY += 1
+	bird.Y += bird.Y_VELOCITY
+}
+
+
+// BIRD INITIALIZATION FUNCTION
+func NewBird(width int, height int) *Bird {
+		return &Bird{
+			Width				: width,
+			Height			: height,
+			X						:	100,
+			Y						:	200,
+			Y_VELOCITY	:	0,
+		}
+}
