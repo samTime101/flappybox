@@ -3,7 +3,20 @@
 // UTILS.GO
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"github.com/hajimehoshi/ebiten/v2"
+	"github.com/hajimehoshi/ebiten/v2/ebitenutil"
+	"image/color"
+	"log"
+)
+
+var (
+	// INSTANCES
+	canvas := NewCanvas(CANVASWIDTH, CANVASHEIGHT)
+	upperpipe := NewUpperPipe(PIPEWIDTH, PIPEHEIGHT, nil,nil, canvas)
+	lowerpipe := NewLowerPipe(PIPEWIDTH, PIPEHEIGHT, nil,nil, canvas)	
+)
 
 const (
 	CANVASWIDTH  = 800
@@ -15,11 +28,6 @@ const (
 )
 
 func main(){
-	// INSTANCES
-	canvas := NewCanvas(CANVASWIDTH, CANVASHEIGHT)
-	upperpipe := NewUpperPipe(PIPEWIDTH, PIPEHEIGHT, nil,nil, canvas)
-	lowerpipe := NewLowerPipe(PIPEWIDTH, PIPEHEIGHT, nil,nil, canvas)
-	
 	for i:=0; i < FRAME; i++ {
 		upperpipe.MoveLeft(PIPESPEED)
 		lowerpipe.MoveLeft(PIPESPEED)
